@@ -1,26 +1,27 @@
-import { Pokemon } from "../domain/model/pokemon";
-import { TypePokemon } from "../domain/model/types";
-
-
 export class PokemonService {
-    
-    getAllPokemon() {
-       return console.log("func getAll, "), Pokemon;
+    private pokemons: Array<{ id: string; name: string; type: string }> = [
+        { id: '1', name: 'Squirtle', type: 'Water' },
+        { id: '2', name: 'Charmander', type: 'Fire' },
+        { id: '3', name: 'Bulbasaur', type: 'Grass' },
+    ];
+
+    async getAllPokemon() {
+        return this.pokemons;
     }
 
-    getByIdPokemon(id) {
-        return console.log("func getById");
+    async getByIdPokemon(id: string) {
+        return this.pokemons.find(pokemon => pokemon.id === id);
     }
 
-    putAtualizaPokemon() {
-        return console.log("func putAtualizaPokemon");
+    async addPokemon(pokemon: { name: string; type: string }) {
+        const newPokemon = { id: `${Date.now()}`, ...pokemon };
+        this.pokemons.push(newPokemon);
+        return newPokemon;
     }
 
-    postAddPokemon(Pokemon, TypePokemon) {
-       return console.log("func add");
-    }
-
-    deletePokemon(id) {
-        return console.log("func delete");
+    async deletePokemon(id: string) {
+        const index = this.pokemons.findIndex(pokemon => pokemon.id === id);
+        if (index === -1) return null;
+        return this.pokemons.splice(index, 1)[0];
     }
 }
